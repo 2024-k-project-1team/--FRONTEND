@@ -1,0 +1,19 @@
+# Node modules
+node_modules/
+
+# Yarn files
+yarn.lock
+.yarn/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# MacOS files
+.DS_Store
+
+# Build directory
+build/
+
+# Ignore any additional files or directories you don't want to track
