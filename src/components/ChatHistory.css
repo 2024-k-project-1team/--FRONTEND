@@ -1,0 +1,27 @@
+.chat-history {
+    flex: 1;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+    justify-content: center;
+  }
+  
+  .chat-record {
+    margin: 15px 2px;
+    margin-left: 8px;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    width: 240px;
+  }
+  
+  .chat-record-header {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .chat-message {
+    margin-left: 10px;
+  }
+  
