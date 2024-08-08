@@ -1,0 +1,111 @@
+.container {
+    width: 510px;
+    position: absolute;
+
+}
+
+
+.login-form {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 11px;
+
+    /* Black-800 (#333333) */
+    color: #333333;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+}
+
+.container h1 {
+    margin-bottom: 20px;
+    font-size: 20px;
+
+}
+
+#username, #password {
+    width: 360px;
+    height: 48px;
+    background: #eeeeee;
+    border-radius: 6px;
+    border: none;
+    margin-bottom: 10px;
+    font-size: 11px;
+}
+
+
+
+.loginText {
+    margin: 8px;
+}
+
+.loginBtn {
+    
+    width: 360px;
+    height: 40px;
+
+    background: #82C2FD;
+    border-radius: 6px;
+    border: none;
+
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 20px;
+    color: #FFFFFF;
+
+    margin-top: 20px;
+    margin-bottom: 12px;
+}
+
+
+.loginMid {
+    width: 360px;
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.socialBox {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    .google {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 16px;
+        
+        width: 360px;
+        height: 40px;
+
+        background: #333333;
+        border-radius: 6px;
+
+        flex: none;
+        order: 0;
+        flex-grow: 1;
+
+        box-sizing: border-box;
+      .googleLogo {
+        width: 24px;
+        height: 25px;
+      }
+      .googleText {
+
+        height: 20px;
+        box-sizing: border-box;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 20px;
+        display: flex;
+        text-align: center;
+        letter-spacing: 0.3px;
+        color: #FFFFFF;
+        order: 1;
+        flex-grow: 0;
+
+      }
+    }
+}
