@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import UserInfo from '../components/UserInfo';
-import Chatbox from '../components/Chatbox';
-import ChatInput from '../components/ChatInput';
-import './Chatting.css';
+import React, { useState } from "react";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import UserInfo from "../../components/UserInfo/UserInfo";
+import Chatbox from "../../components/Chatbox/Chatbox";
+import ChatInput from "../../components/ChatInput/ChatInput";
+import "./Chatting.css";
 
 interface ChatMessage {
   message: string;
   isUser: boolean;
 }
 
-
-
 const Chatting: React.FC = () => {
   const [chats, setChats] = useState<ChatMessage[][]>([[]]);
   const [currentChat, setCurrentChat] = useState<ChatMessage[]>([]);
-  const name = 'Hyejung Yoon'; // 예시 이름
-  const email = '123456@naver.com'; // 예시 이메일
+  const name = "Hyejung Yoon"; // 예시 이름
+  const email = "123456@naver.com"; // 예시 이메일
 
   const handleNewChat = () => {
     if (currentChat.length > 0) {
@@ -32,7 +30,6 @@ const Chatting: React.FC = () => {
     setCurrentChat([...currentChat, userMessage, botResponse]);
   };
 
-
   return (
     <div className="chatting-container">
       <Sidebar chats={chats} onNewChat={handleNewChat} />
@@ -43,6 +40,6 @@ const Chatting: React.FC = () => {
       </main>
     </div>
   );
-}
+};
 
 export default Chatting;

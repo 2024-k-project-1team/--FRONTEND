@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import userIcon from '../assets/icons/my_icon.png'; // 아이콘 경로를 맞게 설정하세요
-import './UserInfo.css';
+import React, { useState } from "react";
+import userIcon from "../../assets/icons/my_icon.png";
+import "./UserInfo.css";
 
 interface UserInfoProps {
   name: string;
@@ -21,6 +21,6 @@ const UserInfo: React.FC<UserInfoProps> = ({ name, email }) => {
       {showEmail && <div className="user-email">{email}</div>}
     </div>
   );
-}
+};
 
 export default UserInfo;
