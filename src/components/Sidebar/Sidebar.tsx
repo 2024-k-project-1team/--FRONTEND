@@ -1,7 +1,7 @@
-import React from 'react';
-import './Sidebar.css';
-import ChatHistory from './ChatHistory';
-import LogoutButton from './LogoutButton';
+import React from "react";
+import "./Sidebar.css";
+import ChatHistory from "../ChatHistory/ChatHistory";
+import LogoutButton from "../LogoutButton/LogoutButton";
 
 interface ChatMessage {
   message: string;
@@ -15,12 +15,14 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ chats, onNewChat }) => {
   return (
     <aside className="sidebar">
-      <button className="new-chat-button" onClick={onNewChat}>새 채팅  + </button>
+      <button className="new-chat-button" onClick={onNewChat}>
+        새 채팅 +{" "}
+      </button>
       <h2>기록</h2>
       <ChatHistory chats={chats} />
       <LogoutButton />
     </aside>
   );
-}
+};
 
 export default Sidebar;
