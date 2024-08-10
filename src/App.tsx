@@ -1,9 +1,12 @@
-import React from "react";
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginPage from './pages/LoginPage/LoginPage';
+import MainPage from './pages/MainPage/MainPage';
+import Home from './pages/Home/Home';
 import Chatting from "./pages/Chatting/Chatting";
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/LoginPage/LoginPage";
-import Home from "./pages/Home/Home";
+
 
 const App: React.FC = () => {
   return (
