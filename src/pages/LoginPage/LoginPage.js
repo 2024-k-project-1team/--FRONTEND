@@ -13,7 +13,7 @@ const LoginPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     // 로그인 처리 로직
-    navigate('/chatbot'); 
+    navigate('/chatting'); 
   };
 
   return (

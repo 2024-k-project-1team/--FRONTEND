@@ -1,0 +1,44 @@
+.chat-item {
+    max-width: 60%;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 20px;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .chat-item.user {
+    background-color: #f1f8ff; /* 사용자가 입력한 채팅 */
+    align-self: flex-end; 
+    border-top-right-radius: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+
+  }
+  
+  .chat-item.response {
+    background-color: #9bcefd; /* 챗봇이 응답한 채팅 */
+    align-self: flex-start;
+    border-top-right-radius: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .chat-item::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+  
+  .chat-item.user::before {
+    top: 0;
+    left: -10px;
+    border-color: transparent #f1f8ff transparent transparent;
+  }
+  
+  .chat-item.response::before {
+    top: 0;
+    right: -10px;
+    border-color: transparent transparent transparent #9bcefd;
+  }
+  

@@ -1,0 +1,47 @@
+.sidebar {
+  width: 20%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid grey;
+}
+
+.new-chat-button {
+  border: none;
+  border-bottom: 1px solid grey;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.logout-button {
+background-color: #82C2FD;
+width: 90px;
+padding: 10px;
+border-radius: 5px;
+border: none;
+position: relative;
+
+
+}
+
+.chat-history {
+  flex: 1;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.chat-record {
+  margin-bottom: 10px;
+}
+
+.chat-record-header {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+

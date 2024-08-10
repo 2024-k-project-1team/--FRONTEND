@@ -1,0 +1,17 @@
+ .user-icon {
+    width: 30px;
+ }
+
+ .user-info {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+.user-email {
+    background-color: #F1FCFC;
+    border-radius: 5px;;
+}
