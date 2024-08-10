@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './MainPage.css'; // CSS 파일 임포트
-import LoginPage from './LoginPage';
+import LoginPage from '../LoginPage/LoginPage';
 
 const MainPage = () => {
   return (

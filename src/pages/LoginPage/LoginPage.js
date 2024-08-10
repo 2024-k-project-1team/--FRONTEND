@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
-import googleLogo from '../assets/img/google.png';
-import chatLogo from '../assets/img/chatLogo.png';
+import googleLogo from '../../assets/img/google.png';
+import chatLogo from '../../assets/img/chatLogo.png';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
