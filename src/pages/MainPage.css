@@ -8,14 +8,29 @@
 }
 
 .homeContainer {
-
     position: absolute;
-    left:50%;
+    left:52%;
     top:50%;
     transform: translate(-50%,-50%);
 
     
 }
+
+.mainEng {
+    width: 427px;
+    margin-left: -10%;
+
+
+    font-style: normal;
+    font-weight: 600;
+    font-size: 25px;
+    
+
+    
+
+    color: #E3E3E3;
+}
+
 .mainText {
     width: 327px;
     height: 105px;
@@ -31,11 +46,13 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 50px;
-    margin-top: 50px;
+    margin-bottom: 12%;
+    margin-top: 2%;
+    
 }
 
 .mainText2 {
+    font-family: 'Pretendard';
     font-size: 25px;
     color: #FFFFFF;
     padding-top: 30px;
@@ -55,31 +72,64 @@
     border-radius: 0px 24px 24px 24px;
 
     padding: 15px;
-    margin: 25px;
-    margin-left: -50%;
+    margin: 8%;
+    margin-left: -40%;
     
 }
 
 .exText1 {
 
-
-    font-weight: 700;
+    width: 320px;
+    font-weight: 600;
     font-size: 18px;
 
     color: #8E8E8E;
+    position: absolute;
 }
 
-.exButton1 {
+
+.category1 {
     
     width: 117px;
     height: 30px;
-    left: 195px;
-    top: 48px;
+    left: 3cqmin;
+    margin-top: 35px;
+
+    font-size: 14px;
+    line-height: 30px;
+    font-weight: 900;
+    color: #353535;
+    text-align: center;
 
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     border: none;
+    position: absolute;
+
+}
+
+.category2 {
+    
+    width: 117px;
+    height: 30px;
+    left: 120px;
+    bottom: 20px;
+
+    
+    font-weight: 900;
+    font-size: 14px;
+    line-height: 30px;
+    color: #353535;
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    border: none;
+    position: relative;
+
+    
 
 }
 
@@ -88,16 +138,15 @@
 
     width: 274px;
     height: 96px;
-    left: 541px;
-    top: 464px;
     
     background: rgba(130, 194, 253, 0.19);
     border: 1px solid #B3B3B3;
     border-radius: 24px 24px 0px 24px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 
     padding: 15px;
-    margin: 25px;
-    margin-left: 50%;
+    margin: 8%;
+    margin-left: 42%;
 }
 
 .exText2 {
@@ -114,14 +163,3 @@
     color: #FFFFFF;
 }
 
-.Login {
-    grid-column-start: 2;
-    grid-column-end: 2;
-    display: grid;
-    margin-left: auto;
-    float: right;
-}
-
-.autoLogin {
-    margin: 1px;
-}
