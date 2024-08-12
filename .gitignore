@@ -17,3 +17,7 @@ yarn-error.log*
 build/
 
 # Ignore any additional files or directories you don't want to track
+
+#.env files
+.env
+.env.*
