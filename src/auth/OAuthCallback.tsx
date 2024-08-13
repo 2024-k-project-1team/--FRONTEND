@@ -20,7 +20,7 @@ const OAuthCallback = ({ onLogin }: { onLogin: (user: User) => void }) => {
 
   useEffect(() => {
     if (code && state === "google") {
-      const url = `https://knbot.newspect.co.kr/api/v1/auth/google/callback?code=${code}`;
+      const url = `https://knbot.xyz/api/v1/auth/google/callback?code=${code}`;
 
       axios
         .get<AuthResponse>(url, {

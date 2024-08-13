@@ -9,7 +9,7 @@ export const useLogout = () => {
       const accessToken = sessionStorage.getItem("accessToken");
 
       if (accessToken) {
-        await axios.delete("https://knbot.newspect.co.kr/api/v1/auth/log-out", {
+        await axios.delete("https://knbot.xyz/api/v1/auth/log-out", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

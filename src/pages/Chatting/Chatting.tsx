@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import UserInfo from "../../components/UserInfo/UserInfo";
 import Chatbox from "../../components/Chatbox/Chatbox";
 import ChatInput from "../../components/ChatInput/ChatInput";
+import { formatMessage } from "../../utils/formatMsg";
+import WebSocketService from "../../services/websocket";
 import "./Chatting.css";
 
 interface ChatMessage {
@@ -13,8 +15,24 @@ interface ChatMessage {
 const Chatting: React.FC = () => {
   const [chats, setChats] = useState<ChatMessage[][]>([[]]);
   const [currentChat, setCurrentChat] = useState<ChatMessage[]>([]);
-  const name = "Hyejung Yoon"; // 예시 이름
+  const name = "user name"; // 예시 이름
   const email = "123456@naver.com"; // 예시 이메일
+
+  useEffect(() => {
+    WebSocketService.connect("ws://your-websocket-url"); // 여기에 실제 웹소켓 URL
+
+    WebSocketService.onMessage((data: string) => {
+      const botResponse: ChatMessage = {
+        message: formatMessage(data),
+        isUser: false,
+      };
+      setCurrentChat((prevChat) => [...prevChat, botResponse]);
+    });
+
+    return () => {
+      WebSocketService.disconnect();
+    };
+  }, []);
 
   const handleNewChat = () => {
     if (currentChat.length > 0) {
@@ -25,9 +43,10 @@ const Chatting: React.FC = () => {
 
   const handleSendMessage = (message: string) => {
     const userMessage: ChatMessage = { message, isUser: true };
-    const botResponse: ChatMessage = { message: message, isUser: false };
 
-    setCurrentChat([...currentChat, userMessage, botResponse]);
+    setCurrentChat([...currentChat, userMessage]);
+
+    WebSocketService.sendMessage(message); // 서버로 메시지 전송
   };
 
   return (
