@@ -19,7 +19,7 @@ const App: React.FC = () => {
         <Route path="/loginpage" element={<LoginPage />} />
         <Route path="/chatting" element={<Chatting />} />
         <Route
-          path="/api/v1/auth/google/callback"
+          path="/google"
           element={<OAuthCallback onLogin={handleLogin} />}
         />
       </Routes>
