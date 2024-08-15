@@ -1,24 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import userIcon from "../../assets/icons/my_icon.png";
 import "./UserInfo.css";
 
 interface UserInfoProps {
   name: string;
-  email: string;
 }
 
-const UserInfo: React.FC<UserInfoProps> = ({ name, email }) => {
-  const [showEmail, setShowEmail] = useState(false);
-
+const UserInfo: React.FC<UserInfoProps> = ({ name }) => {
   return (
-    <div
-      className="user-info"
-      onMouseEnter={() => setShowEmail(true)}
-      onMouseLeave={() => setShowEmail(false)}
-    >
+    <div className="user-info">
       <img src={userIcon} alt="User Icon" className="user-icon" />
       <span className="user-name">{name}</span>
-      {showEmail && <div className="user-email">{email}</div>}
     </div>
   );
 };
