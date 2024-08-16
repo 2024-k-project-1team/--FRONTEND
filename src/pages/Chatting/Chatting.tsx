@@ -71,6 +71,10 @@ const Chatting: React.FC = () => {
           setRoomId(parseInt(storedRoomId, 10)); // 그 방을 로드
         } else if (chatRooms.rooms.length > 0) {
           setRoomId(chatRooms.rooms[0].id); // 첫 번째 방을 로드
+        } else {
+          console.log(
+            "No stored roomId, waiting for user to create a new chat room."
+          );
         }
 
         WebSocketService.connect(
