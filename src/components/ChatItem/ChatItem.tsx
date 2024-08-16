@@ -10,7 +10,7 @@ const ChatItem: React.FC<ChatItemProps> = ({ isUser, message }) => {
   return (
     <div
       className={`chat-item ${isUser ? "user" : "response"}`}
-      dangerouslySetInnerHTML={{ __html: message }} // HTML로 렌더링
+      dangerouslySetInnerHTML={{ __html: message }}
     />
   );
 };
