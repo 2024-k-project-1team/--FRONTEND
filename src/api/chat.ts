@@ -30,13 +30,21 @@ export const deleteChatRoom = async (
   roomNumber: number
 ): Promise<void> => {
   try {
-    await axios.delete(`${API_BASE_URL}/chat/out/${roomNumber}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: "*/*",
-      },
-    });
-    console.log(`Room ${roomNumber} deleted successfully`);
+    const response = await axios.delete(
+      `${API_BASE_URL}/chat/out/${roomNumber}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Accept: "*/*",
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      console.log(`Room ${roomNumber} deleted successfully`);
+    } else {
+      console.log(`Unexpected response status: ${response.status}`);
+    }
   } catch (error) {
     console.error(`Error deleting room ${roomNumber}:`, error);
     throw error;
@@ -62,6 +70,7 @@ export const renameChatRoom = async (
       }
     );
     console.log(`Room ${roomNumber} renamed to ${newName} successfully`);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(`Error renaming room ${roomNumber}:`, error);
@@ -75,16 +84,13 @@ export const getMyChatRooms = async (
   page: number = 0
 ): Promise<any> => {
   try {
-    const response = await axios.get<any>(
-      `${API_BASE_URL}/chat/my-rooms`,
-      {
-        params: { page },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          Accept: "*/*",
-        },
-      }
-    );
+    const response = await axios.get<any>(`${API_BASE_URL}/chat/my-rooms`, {
+      params: { page },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: "*/*",
+      },
+    });
 
     console.log("My chat rooms response:", response.data);
     return response.data;
