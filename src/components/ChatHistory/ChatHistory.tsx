@@ -8,11 +8,12 @@ interface ChatMessage {
 
 interface ChatHistoryProps {
   chats: ChatMessage[][];
-  roomIds: number[]; // 모든 채팅방의 ID
-  currentRoomId: number | null; // 현재 사용 중인 채팅 방 ID
+  roomIds: number[];
+  currentRoomId: number | null;
   onDeleteChat: (roomId: number | null) => void;
   onRenameChat: (roomId: number, newTitle: string) => void;
-  roomTitles: { [key: number]: string }; // 각 채팅방의 제목
+  onSelectChat: (roomId: number) => void;
+  roomTitles: { [key: number]: string };
 }
 
 const ChatHistory: React.FC<ChatHistoryProps> = ({
@@ -21,73 +22,86 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   currentRoomId,
   onDeleteChat,
   onRenameChat,
+  onSelectChat,
   roomTitles,
 }) => {
-  const [editingRoom, setEditingRoom] = useState<number | null>(null);
+  const [editingRoomId, setEditingRoomId] = useState<number | null>(null);
   const [newTitle, setNewTitle] = useState("");
+  const [activeRoomId, setActiveRoomId] = useState<number | null>(null);
 
   const handleEditClick = (roomId: number) => {
-    setEditingRoom(roomId);
+    setEditingRoomId(roomId);
     setNewTitle(roomTitles[roomId] || "");
   };
 
-  const handleRenameSubmit = (event: React.FormEvent) => {
+  const handleRenameSubmit = (event: React.FormEvent, roomId: number) => {
     event.preventDefault();
-    if (editingRoom !== null) {
-      onRenameChat(editingRoom, newTitle);
-      setEditingRoom(null);
-      setNewTitle("");
+    if (newTitle.trim()) {
+      onRenameChat(roomId, newTitle.trim());
+      setEditingRoomId(null);
     }
   };
 
+  const handleCancelEdit = () => {
+    setEditingRoomId(null);
+    setNewTitle("");
+  };
+
+  const handleKebabClick = (roomId: number) => {
+    setActiveRoomId(activeRoomId === roomId ? null : roomId);
+  };
+
   return (
-    <div className="chat-history">
+    <ul className="chat-history">
       {roomIds.map((roomId) => (
-        <div key={roomId} className="chat-record">
-          <div className="chat-record-header">
-            {editingRoom === roomId ? (
-              <form onSubmit={handleRenameSubmit}>
+        <li
+          key={roomId}
+          className={currentRoomId === roomId ? "active" : ""}
+          onClick={() => onSelectChat(roomId)}
+        >
+          <div className="chat-header">
+            {editingRoomId === roomId ? (
+              <form className="edit" onSubmit={(e) => handleRenameSubmit(e, roomId)}>
                 <input
+                  className="edit-text"
                   type="text"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
+                  autoFocus
                   required
                 />
                 <button type="submit">확인</button>
-                <button type="button" onClick={() => setEditingRoom(null)}>
+                <button type="button" onClick={handleCancelEdit}>
                   취소
                 </button>
               </form>
             ) : (
-              <>
-                {roomTitles[roomId] || `Room ${roomId}`}
-                {roomId === currentRoomId && " (현재 사용 중)"}
-                <button
-                  className="edit-button"
-                  onClick={() => handleEditClick(roomId)}
-                >
-                  수정
+              <div className="chat-title-container">
+                <h3 className="chat-title">{roomTitles[roomId] || `Room ${roomId}`}</h3>
+                <button className="kebab-menu" onClick={(e) => {
+                  e.stopPropagation(); // 클릭 이벤트 전파 방지
+                  handleKebabClick(roomId);
+                }}>
+                  &#8226;&#8226;&#8226; {/* 케밥 아이콘 */}
                 </button>
-                <button
-                  className="delete-button"
-                  onClick={() => onDeleteChat(roomId)}
-                >
-                  삭제
-                </button>
-              </>
+                {activeRoomId === roomId && (
+                  <div className="dropdown-menu">
+                    <button onClick={(e) => {
+                      e.stopPropagation(); // 클릭 이벤트 전파 방지
+                      handleEditClick(roomId);
+                    }}>수정</button>
+                    <button onClick={(e) => {
+                      e.stopPropagation(); // 클릭 이벤트 전파 방지
+                      onDeleteChat(roomId);
+                    }}>삭제</button>
+                  </div>
+                )}
+              </div>
             )}
           </div>
-          {chats[roomIds.indexOf(roomId)]?.map((message, msgIndex) => (
-            <div
-              key={msgIndex}
-              className={`chat-message ${message.isUser ? "user" : "response"}`}
-            >
-              {message.message}
-            </div>
-          ))}
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 

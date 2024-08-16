@@ -78,24 +78,28 @@ export const renameChatRoom = async (
   }
 };
 
+
 // 채팅방 조회
-export const getMyChatRooms = async (
+export const getChatRooms = async (
   accessToken: string,
   page: number = 0
 ): Promise<any> => {
   try {
-    const response = await axios.get<any>(`${API_BASE_URL}/chat/my-rooms`, {
-      params: { page },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: "*/*",
-      },
-    });
+    const response = await axios.get(
+      `${API_BASE_URL}/chat/my-rooms?page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Accept: "*/*",
+        },
+      }
+    );
 
-    console.log("My chat rooms response:", response.data);
+    console.log(`Chat rooms on page ${page}:`, response.data);
     return response.data;
   } catch (error) {
-    console.error("Error retrieving chat rooms:", error);
+    console.error("Error fetching chat rooms:", error);
     throw error;
   }
 };
+
