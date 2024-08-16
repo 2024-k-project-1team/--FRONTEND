@@ -14,6 +14,8 @@ interface SidebarProps {
   currentRoomId: number | null; // 현재 사용 중인 채팅 방 ID
   onNewChat: () => void;
   onDeleteChat: (roomId: number | null) => void; // 삭제 버튼 클릭 시 호출될 함수
+  onRenameChat: (roomId: number, newTitle: string) => void; // 채팅방 이름 변경 함수
+  roomTitles: { [key: number]: string }; // 각 채팅방의 제목
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -22,6 +24,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   currentRoomId,
   onNewChat,
   onDeleteChat,
+  onRenameChat,
+  roomTitles,
 }) => {
   return (
     <aside className="sidebar">
@@ -34,6 +38,8 @@ const Sidebar: React.FC<SidebarProps> = ({
         roomIds={roomIds}
         currentRoomId={currentRoomId}
         onDeleteChat={onDeleteChat}
+        onRenameChat={onRenameChat} // 채팅방 이름 변경 핸들러 추가
+        roomTitles={roomTitles} // 채팅방 제목 추가
       />
       <LogoutButton />
     </aside>
