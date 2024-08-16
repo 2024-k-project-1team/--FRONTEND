@@ -1,4 +1,7 @@
 .logout-button {
-   color: #82C2FD;
-    width: 100px;
-}
+    color: #82C2FD;
+     width: 100px;
+     position: absolute;
+     cursor: pointer;
+    
+ }

@@ -3,26 +3,29 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   border-right: 1px solid grey;
+  font-family: 'Pretendard';
 }
 
 .new-chat-button {
   border: none;
-  border-bottom: 1px solid grey;
-  padding: 10px;
+  padding: 5px;
   cursor: pointer;
   background-color: #fff;
+  width: 20px;
+  font-size: large;
 }
+
 
 .logout-button {
 background-color: #82C2FD;
 width: 90px;
 padding: 10px;
-border-radius: 5px;
+border-radius: 10px;
 border: none;
 position: relative;
-
+cursor: pointer;
+left:70%;
 
 }
 

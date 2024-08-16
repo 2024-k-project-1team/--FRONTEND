@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
+import Spinner from "../components/spinner/Spinner";
 
 interface User {
   name: string;
@@ -14,6 +15,7 @@ interface AuthResponse {
 }
 
 const OAuthCallback = ({ onLogin }: { onLogin: (user: User) => void }) => {
+  const [loading, setLoading] = useState(true);
   const code = new URL(window.location.href).searchParams.get("code");
   const state = new URL(window.location.href).searchParams.get("state");
   const navigate = useNavigate();
@@ -41,6 +43,9 @@ const OAuthCallback = ({ onLogin }: { onLogin: (user: User) => void }) => {
 
             navigate("/chatting");
           }
+          else {
+            setLoading(false); // 로딩 상태를 false로 
+          }
         })
         .catch((error: unknown) => {
           if (axios.isAxiosError(error)) {
@@ -51,11 +56,21 @@ const OAuthCallback = ({ onLogin }: { onLogin: (user: User) => void }) => {
           } else {
             console.error("Unexpected error:", error);
           }
+          setLoading(false); // 로딩 상태를 false로 
         });
+    } else {
+      setLoading(false); 
     }
   }, [code, state, navigate, onLogin]);
 
-  return <div>로그인 중입니다. 잠시 기다려 주세요.</div>;
+  return (
+    <div>
+      {loading ? (
+        <Spinner /> // 로딩 상태일 때 Spinner 
+      ) : (
+        <div>로그인 중입니다. 잠시 기다려 주세요.</div>
+      )}
+    </div>
+  );
 };
-
 export default OAuthCallback;
