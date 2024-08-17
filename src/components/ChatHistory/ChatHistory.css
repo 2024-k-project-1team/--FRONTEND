@@ -1,127 +1,73 @@
 .chat-history {
-    flex: 1;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    padding: 10px;
-    justify-content: center;
-  }
-  
-  .chat-record {
-    margin: 15px 2px;
-    margin-left: 8px;
-    border-radius: 6px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    width: 240px;
-  }
-  
-  .chat-record-header {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .chat-message {
-    margin-left: 10px;
-  }
-  
-  .chat-history li {
-    list-style-type: none;
-    padding: 10px;
-    cursor: pointer; /* 클릭 가능 영역의 커서를 포인터로 설정 */
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .chat-history li.active {
-    background-color: #f0f0f0;
-  }
-  
-  .chat-header button {
-    margin-left: 10px;
-  }
+  max-height: 3000px;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
 
+.chat-history::-webkit-scrollbar {
+  width: 6px;
+}
 
-  .chat-header {
-    display: flex;
-    align-items: center;
-    position: relative; /* 필요한 경우, 드롭다운 메뉴 위치 조정 */
-  }
+.chat-history::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+}
 
-  .kebab-menu {
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 0;
-  }
-  
-  .dropdown-menu {
-    position: absolute;
-    right: 0px;
-    top:100%;
-    background-color: white;
-    padding-right: 5%;
-    
-    display: flex;
-    flex-direction: column;
-    z-index: 1;
-  }
-  
-  .dropdown-menu button {
-    font-size: 14px;
-    background: none;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    
-  }
-  
-  .dropdown-menu button:hover {
-    background-color: #f0f0f0;
-  }
+.chat-history li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+  position: relative; /* 추가 */
+}
 
-  .chat-title-container {
-    display: flex;
-    align-items: center;
-    flex: 1;
-  }
-  
-  .chat-title {
-    margin: 0;
-    flex: 1;
-  }
-  .dropdown-menu button:hover {
-    background-color: #f0f0f0;
-  }
+.chat-history li.active {
+  background-color: #f0f0f0;
+}
 
-  .dropdown-menu button:first-child {
-    border-bottom: 1px solid #ddd; /* 메뉴 항목 사이에 구분선 추가 */
-  }
-  
-  .dropdown-menu button:last-child {
-    border-bottom: none; /* 마지막 항목의 하단 테두리 제거 */
-  }
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.edit-text {
+  width: 70%;
+}
 
-  
-  .edit button {
-    padding: 10px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #63aeff;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s;  
-    width: 40%;
-  }
+.kebab-menu {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative; /* 추가 */
+}
 
-  .edit-text {
-  flex: 1;
-  padding: 8px;
-  margin-right: 10px;
+.dropdown-menu {
+  position: absolute;
+  top: 50%; /* 케밥 버튼과 같은 위치에 */
+  right: 40px; /* 케밥 메뉴 버튼 오른쪽에 배치 */
+  transform: translateY(
+    -50%
+  ); /* 드롭다운 메뉴의 수직 중앙 정렬... 인데 이거 수정 필요해요*/
+  background-color: white;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
-  }
+  padding: 5px;
+  z-index: 1000;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15); /* 약간의 그림자 추가...할가요..?  */
+}
+
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 5px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f0f0f0;
+}

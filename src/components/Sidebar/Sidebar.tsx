@@ -26,16 +26,16 @@ const Sidebar: React.FC<SidebarProps> = ({
   onNewChat,
   onDeleteChat,
   onRenameChat,
-  onSelectChat, // 추가된 부분
+  onSelectChat,
   roomTitles,
 }) => {
   return (
     <aside className="sidebar">
-       <div className="newchat">
+      <div className="newchat">
         <div className="news-chat-text">새 채팅</div>
-      <button className="new-chat-button" onClick={onNewChat}>
-       +{" "}
-      </button>
+        <button className="new-chat-button" onClick={onNewChat}>
+          +{" "}
+        </button>
       </div>
       <h2>기록</h2>
       <ChatHistory
@@ -43,9 +43,9 @@ const Sidebar: React.FC<SidebarProps> = ({
         roomIds={roomIds}
         currentRoomId={currentRoomId}
         onDeleteChat={onDeleteChat}
-        onRenameChat={onRenameChat} // 채팅방 이름 변경 핸들러 추가
-        onSelectChat={onSelectChat} // 채팅방 선택 핸들러 추가
-        roomTitles={roomTitles} // 채팅방 제목 추가
+        onRenameChat={onRenameChat}
+        onSelectChat={onSelectChat}
+        roomTitles={roomTitles}
       />
       <LogoutButton />
     </aside>
