@@ -18,6 +18,11 @@ const Chatting: React.FC = () => {
     JSON.parse(sessionStorage.getItem("chats") || "[]")
   );
   const [currentChat, setCurrentChat] = useState<ChatMessage[]>([]);
+
+  const name = "user name"; // 예시 이름
+  const email = "123456@naver.com"; // 예시 이메일
+  const [isWelcomeVisible, setIsWelcomeVisible] = useState(true);
+
   const [roomIds, setRoomIds] = useState<number[]>(
     JSON.parse(sessionStorage.getItem("roomIds") || "[]")
   );
@@ -44,6 +49,8 @@ const Chatting: React.FC = () => {
   useEffect(() => {
     sessionStorage.setItem("roomTitles", JSON.stringify(roomTitles));
   }, [roomTitles]);
+
+
 
   useEffect(() => {
     const initializeChat = async () => {
@@ -89,6 +96,8 @@ const Chatting: React.FC = () => {
                 isUser: false,
               };
               setCurrentChat((prevChat) => [...prevChat, botResponse]);
+              setIsWelcomeVisible(false); // 채팅이 시작되면 시작 메시지 숨김 
+            });
             } catch (error) {
               console.error("Failed to parse message:", error);
             }
@@ -103,6 +112,7 @@ const Chatting: React.FC = () => {
     };
 
     initializeChat();
+
 
     return () => {
       WebSocketService.disconnect();
@@ -203,12 +213,16 @@ const Chatting: React.FC = () => {
     if (roomId === selectedRoomId) return; // 현재 방과 동일하다면 아무 것도 하지 않음
 
     if (currentChat.length > 0) {
+
+      //setChats([...chats, currentChat]);
+
       setChats((prevChats) => {
         const newChats = [...prevChats];
         newChats[roomIds.indexOf(roomId!)] = currentChat;
         return newChats;
       });
       //setCurrentChat([]); // 새로운 방으로 이동 시 현재 채팅 내용을 초기화
+      setIsWelcomeVisible(true); // 새 채팅을 시작하면 시작부분 메세지 보임
     }
 
     setRoomId(selectedRoomId);
@@ -226,6 +240,8 @@ const Chatting: React.FC = () => {
 
     setCurrentChat([...currentChat, userMessage]);
 
+    setIsWelcomeVisible(false); //메세지 보내면 시작텍스트는 숨겨져야함
+
     if (WebSocketService.isConnected()) {
       WebSocketService.sendMessage(`/pub/knbot/${roomId}`, {
         type: "SEND",
@@ -234,6 +250,7 @@ const Chatting: React.FC = () => {
     } else {
       console.error("Client is not connected");
     }
+
   };
 
   return (
@@ -249,8 +266,10 @@ const Chatting: React.FC = () => {
         roomTitles={roomTitles}
       />
       <main className="chat-container">
-        <UserInfo name={name} />
-        <Chatbox messages={currentChat} />
+
+        <UserInfo name={name} 
+        <Chatbox messages={currentChat} showWelcomeMessage={isWelcomeVisible} />
+
         <ChatInput onSendMessage={handleSendMessage} />
       </main>
     </div>

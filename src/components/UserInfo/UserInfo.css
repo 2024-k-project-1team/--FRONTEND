@@ -1,17 +1,29 @@
- .user-icon {
-    width: 30px;
+.user-icon {
+   width: 30px;
+}
+
+.user-info {
+   position: absolute;
+   top: 10px;
+   right: 10px;
+   display: flex;
+   align-items: center;
+   padding: 10px 30px;
+   cursor: pointer;
  }
 
- .user-info {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-  }
 .user-email {
-    background-color: #F1FCFC;
-    border-radius: 5px;;
+  position: absolute;
+  right: 160px; 
+  background-color: #F1FCFC;
+  border-radius: 15px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  font-size: 12px;
+  color: #4d4c4c;
+}
+
+.user-info:hover .user-email {
+  visibility: visible;
+  opacity: 1;
 }
