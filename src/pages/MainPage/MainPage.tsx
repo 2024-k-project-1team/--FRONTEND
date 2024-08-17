@@ -6,7 +6,10 @@ const MainPage = () => {
       <div className="homeContainer">
         <div></div>
         <h1 className="mainEng">"Enables efficient task management"</h1>
-        <h1 className="mainText">당신이 찾던 모든 것, 첫 채팅을 해보세요</h1>
+        <h1 className="mainText">
+          당신이 찾던 모든 것,
+          <br /> 첫 채팅을 해보세요
+        </h1>
         <div className="ex">
           <div className="exQuestion1">
             <div className="exText1">

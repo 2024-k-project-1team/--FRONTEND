@@ -3,9 +3,11 @@ import axios from "axios";
 const API_BASE_URL = "https://knbot.xyz/api/v1";
 
 // 채팅방 생성
-export const createChatRoom = async (accessToken: string): Promise<number> => {
+export const createChatRoom = async (
+  accessToken: string
+): Promise<{ id: number; roomName: string }> => {
   try {
-    const response = await axios.post<number>(
+    const response = await axios.post(
       `${API_BASE_URL}/chat/new`,
       {},
       {
@@ -17,7 +19,7 @@ export const createChatRoom = async (accessToken: string): Promise<number> => {
     );
 
     console.log("Room creation response:", response.data);
-    return response.data;
+    return response.data; // 서버에서 받은 방 ID와 이름을 반환
   } catch (error) {
     console.error("Error creating chat room:", error);
     throw error;
@@ -78,15 +80,46 @@ export const renameChatRoom = async (
   }
 };
 
+// 모든 채팅방 조회 (페이지별로 불러와 합치는 함수)
+export const getAllChatRooms = async (accessToken: string): Promise<any[]> => {
+  let allRooms: any[] = [];
+  let page = 0;
+  let totalPages = 1;
 
-// 채팅방 조회
-export const getChatRooms = async (
+  try {
+    while (page < totalPages) {
+      const response = await axios.get(
+        `${API_BASE_URL}/chat/my-rooms?page=${page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Accept: "*/*",
+          },
+        }
+      );
+
+      const { content, totalPages: serverTotalPages } = response.data;
+      allRooms = [...allRooms, ...content];
+      totalPages = serverTotalPages;
+      page++;
+    }
+
+    return allRooms;
+  } catch (error) {
+    console.error("Error fetching chat rooms:", error);
+    throw error;
+  }
+};
+
+//특정 채팅방의 내용 조회
+export const getChatRoomContents = async (
   accessToken: string,
+  roomNumber: number,
   page: number = 0
 ): Promise<any> => {
   try {
     const response = await axios.get(
-      `${API_BASE_URL}/chat/my-rooms?page=${page}`,
+      `${API_BASE_URL}/chat/contents/${roomNumber}?page=${page}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -95,11 +128,13 @@ export const getChatRooms = async (
       }
     );
 
-    console.log(`Chat rooms on page ${page}:`, response.data);
+    console.log(`Chat contents for room ${roomNumber} fetched:`, response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching chat rooms:", error);
+    console.error(
+      `Error fetching chat contents for room ${roomNumber}:`,
+      error
+    );
     throw error;
   }
 };
-
