@@ -31,9 +31,12 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <aside className="sidebar">
+       <div className="newchat">
+        <div className="news-chat-text">새 채팅</div>
       <button className="new-chat-button" onClick={onNewChat}>
-        새 채팅 +{" "}
+       +{" "}
       </button>
+      </div>
       <h2>기록</h2>
       <ChatHistory
         chats={chats}

@@ -18,11 +18,6 @@ const Chatting: React.FC = () => {
     JSON.parse(sessionStorage.getItem("chats") || "[]")
   );
   const [currentChat, setCurrentChat] = useState<ChatMessage[]>([]);
-
-  const name = "user name"; // 예시 이름
-  const email = "123456@naver.com"; // 예시 이메일
-  const [isWelcomeVisible, setIsWelcomeVisible] = useState(true);
-
   const [roomIds, setRoomIds] = useState<number[]>(
     JSON.parse(sessionStorage.getItem("roomIds") || "[]")
   );
@@ -46,10 +41,10 @@ const Chatting: React.FC = () => {
     sessionStorage.setItem("roomId", JSON.stringify(roomId));
   }, [roomId]);
 
+  
   useEffect(() => {
     sessionStorage.setItem("roomTitles", JSON.stringify(roomTitles));
   }, [roomTitles]);
-
 
 
   useEffect(() => {
@@ -58,7 +53,7 @@ const Chatting: React.FC = () => {
       const storedRoomId = sessionStorage.getItem("roomId");
 
       if (!accessToken) {
-        console.error("Access token is missing");
+        console.error("Access token이 없습니다.");
         return;
       }
 
@@ -77,13 +72,12 @@ const Chatting: React.FC = () => {
         if (storedRoomId) {
           setRoomId(parseInt(storedRoomId, 10)); // 그 방을 로드
         } else if (chatRooms.rooms.length > 0) {
-          setRoomId(chatRooms.rooms[0].id); // 첫 번째 방을 로드
+          setRoomId(chatRooms.rooms[0].id);// 첫 번째 방을 로드
         } else {
-          console.log(
-            "No stored roomId, waiting for user to create a new chat room."
-          );
+          console.log("저장된 방이 없습니다. 새 채팅방을 생성하세요.");
         }
 
+        // WebSocket 연결 설정
         WebSocketService.connect(
           accessToken,
           storedRoomId || roomId?.toString() || "",
@@ -96,33 +90,31 @@ const Chatting: React.FC = () => {
                 isUser: false,
               };
               setCurrentChat((prevChat) => [...prevChat, botResponse]);
-              setIsWelcomeVisible(false); // 채팅이 시작되면 시작 메시지 숨김 
-            });
             } catch (error) {
-              console.error("Failed to parse message:", error);
+              console.error("메시지 파싱 실패:", error);
             }
           },
           () => {
-            console.log("WebSocket connected successfully");
+            console.log("WebSocket 연결 성공");
           }
         );
       } catch (error) {
-        console.error("Failed to initialize chat:", error);
+        console.error("채팅 초기화 실패:", error);
       }
     };
 
     initializeChat();
 
-
     return () => {
-      WebSocketService.disconnect();
+      WebSocketService.disconnect(); // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
     };
   }, [roomId]);
 
+  // 새 채팅방을 생성하는 함수
   const handleNewChat = async () => {
     const accessToken = sessionStorage.getItem("accessToken");
     if (!accessToken) {
-      console.error("Access token is missing");
+      console.error("Access token이 없습니다.");
       return;
     }
 
@@ -133,33 +125,34 @@ const Chatting: React.FC = () => {
           newChats[roomIds.indexOf(roomId!)] = currentChat;
           return newChats;
         });
-        setCurrentChat([]);
+        setCurrentChat([]); // 현재 채팅 내용 초기화
       }
 
-      const newRoomId = await createChatRoom(accessToken);
+      const newRoomId = await createChatRoom(accessToken); // 새 채팅방 생성
       setRoomId(newRoomId);
       setRoomIds((prevRoomIds) => [...prevRoomIds, newRoomId]);
       setChats((prevChats) => [...prevChats, []]); // 새로운 채팅방에 빈 채팅 배열 추가
       setRoomTitles((prevTitles) => ({
         ...prevTitles,
-        [newRoomId]: `Room ${newRoomId}`,
-      })); // 기본 제목 설정
+        [newRoomId]: `Room ${newRoomId}`, //기본 제목 설정
+      }));
       sessionStorage.setItem("roomId", newRoomId.toString());
     } catch (error) {
-      console.error("Failed to create chat room:", error);
+      console.error("채팅방 생성 실패:", error);
     }
   };
 
+  // 채팅방 삭제 함수
   const handleDeleteChat = async (roomIdToDelete: number | null) => {
     const accessToken = sessionStorage.getItem("accessToken");
     if (!accessToken) {
-      console.error("Access token is missing");
+      console.error("Access token이 없습니다.");
       return;
     }
 
     if (roomIdToDelete) {
       try {
-        await deleteChatRoom(accessToken, roomIdToDelete); // 채팅방 삭제
+        await deleteChatRoom(accessToken, roomIdToDelete); // 채팅방 삭제 
         setRoomIds((prevRoomIds) =>
           prevRoomIds.filter((id) => id !== roomIdToDelete)
         );
@@ -167,34 +160,31 @@ const Chatting: React.FC = () => {
           prevChats.filter((_, index) => roomIds[index] !== roomIdToDelete)
         );
         setRoomTitles((prevTitles) =>
-          Object.keys(prevTitles).reduce(
-            (result, key) => {
-              const id = parseInt(key);
-              if (id !== roomIdToDelete) {
-                result[id] = prevTitles[id];
-              }
-              return result;
-            },
-            {} as { [key: number]: string }
-          )
+          Object.keys(prevTitles).reduce((result, key) => {
+            const id = parseInt(key);
+            if (id !== roomIdToDelete) {
+              result[id] = prevTitles[id];
+            }
+            return result;
+          }, {} as { [key: number]: string })
         );
 
         if (roomIdToDelete === roomId) {
           setRoomId(roomIds.length > 0 ? roomIds[0] : null); // 남아있는 방 중 하나를 선택
           setCurrentChat(roomIds.length > 0 ? chats[0] : []); // 남아있는 방의 채팅 기록을 로드
         }
-
         sessionStorage.removeItem("roomId");
       } catch (error) {
-        console.error("Failed to delete chat room:", error);
+        console.error("채팅방 삭제 실패:", error);
       }
     }
   };
 
+  // 채팅방 이름 변경 함수
   const handleRenameChat = async (roomIdToRename: number, newTitle: string) => {
     const accessToken = sessionStorage.getItem("accessToken");
     if (!accessToken) {
-      console.error("Access token is missing");
+      console.error("Access token이 없습니다.");
       return;
     }
 
@@ -205,24 +195,21 @@ const Chatting: React.FC = () => {
         [roomIdToRename]: newTitle,
       }));
     } catch (error) {
-      console.error("Failed to rename chat room:", error);
+      console.error("채팅방 이름 변경 실패:", error);
     }
   };
 
+  // 채팅방을 선택하는 함수
   const handleSelectChat = (selectedRoomId: number) => {
     if (roomId === selectedRoomId) return; // 현재 방과 동일하다면 아무 것도 하지 않음
 
     if (currentChat.length > 0) {
-
-      //setChats([...chats, currentChat]);
-
       setChats((prevChats) => {
         const newChats = [...prevChats];
         newChats[roomIds.indexOf(roomId!)] = currentChat;
         return newChats;
       });
       //setCurrentChat([]); // 새로운 방으로 이동 시 현재 채팅 내용을 초기화
-      setIsWelcomeVisible(true); // 새 채팅을 시작하면 시작부분 메세지 보임
     }
 
     setRoomId(selectedRoomId);
@@ -230,17 +217,15 @@ const Chatting: React.FC = () => {
     setCurrentChat(selectedChat);
   };
 
+  // 메시지 전송 함수
   const handleSendMessage = (message: string) => {
     if (!roomId) {
-      console.error("Room ID is undefined, cannot send message.");
+      console.error("Room ID가 정의되지 않았습니다. 메시지를 보낼 수 없습니다.");
       return;
     }
-
     const userMessage: ChatMessage = { message, isUser: true };
 
     setCurrentChat([...currentChat, userMessage]);
-
-    setIsWelcomeVisible(false); //메세지 보내면 시작텍스트는 숨겨져야함
 
     if (WebSocketService.isConnected()) {
       WebSocketService.sendMessage(`/pub/knbot/${roomId}`, {
@@ -250,8 +235,10 @@ const Chatting: React.FC = () => {
     } else {
       console.error("Client is not connected");
     }
-
   };
+
+  // Welcome 메시지를 보여줄지 여부를 결정하는 곳 
+  const showWelcomeMessage = currentChat.length === 0;
 
   return (
     <div className="chatting-container">
@@ -266,10 +253,9 @@ const Chatting: React.FC = () => {
         roomTitles={roomTitles}
       />
       <main className="chat-container">
-
-        <UserInfo name={name} 
-        <Chatbox messages={currentChat} showWelcomeMessage={isWelcomeVisible} />
-
+        <UserInfo name={name} />
+        {/* Chatbox 컴포넌트 랜더리함,  showWelcomeMessage로 환영 메시지 추가 */}
+        <Chatbox messages={currentChat} showWelcomeMessage={showWelcomeMessage} />
         <ChatInput onSendMessage={handleSendMessage} />
       </main>
     </div>

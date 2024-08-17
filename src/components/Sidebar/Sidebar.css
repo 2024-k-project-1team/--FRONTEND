@@ -3,17 +3,30 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   border-right: 1px solid grey;
   font-family: 'Pretendard';
+}
+.newchat {
+  display: flex;
+ justify-content:space-between;
+ align-items: center;
+ border-bottom: 1px solid grey;
+ padding: 10px;
+
+}
+.news-chat-text{
+  margin-left: 15px;
 }
 
 .new-chat-button {
   border: none;
   padding: 5px;
+  width: 40px;
   cursor: pointer;
+ font-size: 25px;
   background-color: #fff;
-  width: 20px;
-  font-size: large;
+  margin-right: 15px;
 }
 
 
