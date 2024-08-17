@@ -29,11 +29,16 @@ const Sidebar: React.FC<SidebarProps> = ({
   onSelectChat,
   roomTitles,
 }) => {
+  const handleNewChatWithRefresh = async () => {
+    await onNewChat(); // 새 채팅방 생성
+    window.location.reload(); // 페이지 새로고침
+  };
+
   return (
     <aside className="sidebar">
       <div className="newchat">
         <div className="news-chat-text">새 채팅</div>
-        <button className="new-chat-button" onClick={onNewChat}>
+        <button className="new-chat-button" onClick={handleNewChatWithRefresh}>
           +{" "}
         </button>
       </div>
