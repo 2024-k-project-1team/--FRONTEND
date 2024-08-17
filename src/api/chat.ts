@@ -3,9 +3,7 @@ import axios from "axios";
 const API_BASE_URL = "https://knbot.xyz/api/v1";
 
 // 채팅방 생성
-export const createChatRoom = async (
-  accessToken: string
-): Promise<{ id: number; roomName: string }> => {
+export const createChatRoom = async (accessToken: string): Promise<number> => {
   try {
     const response = await axios.post(
       `${API_BASE_URL}/chat/new`,
@@ -19,7 +17,7 @@ export const createChatRoom = async (
     );
 
     console.log("Room creation response:", response.data);
-    return response.data; // 서버에서 받은 방 ID와 이름을 반환
+    return response.data; // 서버에서 받은 방 ID만 반환
   } catch (error) {
     console.error("Error creating chat room:", error);
     throw error;

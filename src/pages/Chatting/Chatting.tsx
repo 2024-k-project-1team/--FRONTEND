@@ -41,6 +41,8 @@ const Chatting: React.FC = () => {
         const chatRooms = await getAllChatRooms(accessToken);
 
         if (chatRooms && chatRooms.length > 0) {
+          // 채팅방 목록을 최근 생성된 순서로 정렬하여 RoomIds를 설정
+          chatRooms.sort((a: any, b: any) => a.id - b.id);
           setRoomIds(chatRooms.map((room: any) => room.id));
           setRoomTitles(
             chatRooms.reduce((titles: { [key: number]: string }, room: any) => {
@@ -48,9 +50,7 @@ const Chatting: React.FC = () => {
               return titles;
             }, {})
           );
-        }
 
-        if (chatRooms.length > 0) {
           setRoomId(chatRooms[0].id); // 첫 번째 방을 기본 선택
           await loadChatRoomContents(chatRooms[0].id); // 첫 번째 방의 채팅 기록 불러오기
         } else {
@@ -64,7 +64,7 @@ const Chatting: React.FC = () => {
     initializeChat();
   }, []);
 
-  // 특정 채팅방의 기록 함수
+  // 특정 채팅방의 기록을 불러오는 함수
   const loadChatRoomContents = async (selectedRoomId: number) => {
     try {
       const accessToken = sessionStorage.getItem("accessToken");
@@ -79,7 +79,6 @@ const Chatting: React.FC = () => {
         0
       );
 
-      // 메시지와 AI 응답을 한 묶음 유지, 묶음 순은 역순으로 정렬
       const formattedChats: ChatMessage[] = chatContents.content.flatMap(
         (chat: any) => [
           { message: chat.message, isUser: true },
@@ -87,7 +86,6 @@ const Chatting: React.FC = () => {
         ]
       );
 
-      // 한 묶음 단위로 역순으로 정렬
       const reversedChats = [];
       for (let i = formattedChats.length - 1; i >= 0; i -= 2) {
         reversedChats.push(formattedChats[i - 1]); // message
@@ -107,7 +105,6 @@ const Chatting: React.FC = () => {
     setRoomId(selectedRoomId);
     await loadChatRoomContents(selectedRoomId); // 선택한 방의 채팅 기록 불러오기
 
-    // WebSocket 연결 재설정 해야합니담
     const accessToken = sessionStorage.getItem("accessToken");
     if (accessToken) {
       WebSocketService.disconnect();
@@ -143,29 +140,34 @@ const Chatting: React.FC = () => {
     }
 
     try {
-      if (currentChat.length > 0) {
+      // 현재 채팅방의 채팅 기록을 저장
+      if (currentChat.length > 0 && roomId !== null) {
         setChats((prevChats) => {
           const newChats = [...prevChats];
-          newChats[roomIds.indexOf(roomId!)] = currentChat;
+          const currentRoomIndex = roomIds.indexOf(roomId);
+          if (currentRoomIndex !== -1) {
+            newChats[currentRoomIndex] = currentChat;
+          }
           return newChats;
         });
         setCurrentChat([]); // 현재 채팅 내용 초기화
       }
 
-      const newRoom = await createChatRoom(accessToken); // 새 채팅방 생성
-      const { id: newRoomId, roomName } = newRoom;
+      // 새 채팅방 생성
+      const newRoomId = await createChatRoom(accessToken);
+      console.log("새로 생성된 방 ID:", newRoomId);
 
-      if (!newRoomId) {
+      if (newRoomId === undefined || newRoomId === null) {
         console.error("채팅방 생성 실패: 새 채팅방 ID가 없습니다.");
         return;
       }
 
-      setRoomId(newRoomId);
-      setRoomIds((prevRoomIds) => [...prevRoomIds, newRoomId]);
-      setChats((prevChats) => [...prevChats, []]); // 새로운 채팅방에 빈 채팅 배열 추가
+      // 새 채팅방을 맨 앞에 추가
+      setRoomIds((prevRoomIds) => [newRoomId, ...prevRoomIds]);
+      setChats((prevChats) => [[], ...prevChats]); // 새로운 채팅방에 빈 채팅 배열 추가
       setRoomTitles((prevTitles) => ({
         ...prevTitles,
-        [newRoomId]: roomName,
+        [newRoomId]: "새 채팅방", // 기본 이름 설정
       }));
 
       // 새로 생성된 채팅방으로 이동
@@ -258,7 +260,6 @@ const Chatting: React.FC = () => {
     }
   };
 
-  // Welcome 메시지를 보여줄지 여부를 결정하는 곳
   const showWelcomeMessage = currentChat.length === 0;
 
   return (

@@ -70,70 +70,73 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
 
   return (
     <ul className="chat-history">
-      {roomIds.map((roomId) => (
-        <li
-          key={roomId}
-          className={currentRoomId === roomId ? "active" : ""}
-          onClick={() => onSelectChat(roomId)}
-        >
-          <div className="chat-header">
-            {editingRoomId === roomId ? (
-              <form
-                className="edit"
-                onSubmit={(e) => handleRenameSubmit(e, roomId)}
-              >
-                <input
-                  className="edit-text"
-                  type="text"
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                  autoFocus
-                  required
-                />
-                <button type="submit">확인</button>
-                <button type="button" onClick={handleCancelEdit}>
-                  취소
-                </button>
-              </form>
-            ) : (
-              <div className="chat-title-container">
-                <h3 className="chat-title">
-                  {roomTitles[roomId] || `Room ${roomId}`}
-                </h3>
-                <button
-                  className="kebab-menu"
-                  onClick={(e) => {
-                    e.stopPropagation(); // 클릭 이벤트 전파 방지
-                    handleKebabClick(roomId);
-                  }}
+      {roomIds
+        .slice()
+        .reverse() // 기존 채팅방 목록은 시간순서대로 최신이 위로 오도록 정렬
+        .map((roomId) => (
+          <li
+            key={roomId}
+            className={currentRoomId === roomId ? "active" : ""}
+            onClick={() => onSelectChat(roomId)}
+          >
+            <div className="chat-header">
+              {editingRoomId === roomId ? (
+                <form
+                  className="edit"
+                  onSubmit={(e) => handleRenameSubmit(e, roomId)}
                 >
-                  &#8226;&#8226;&#8226; {/* 케밥 아이콘 */}
-                </button>
-                {activeRoomId === roomId && (
-                  <div className="dropdown-menu" ref={dropdownRef}>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation(); // 클릭 이벤트 전파 방지
-                        handleEditClick(roomId);
-                      }}
-                    >
-                      수정
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation(); // 클릭 이벤트 전파 방지
-                        onDeleteChat(roomId);
-                      }}
-                    >
-                      삭제
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        </li>
-      ))}
+                  <input
+                    className="edit-text"
+                    type="text"
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    autoFocus
+                    required
+                  />
+                  <button type="submit">확인</button>
+                  <button type="button" onClick={handleCancelEdit}>
+                    취소
+                  </button>
+                </form>
+              ) : (
+                <div className="chat-title-container">
+                  <h3 className="chat-title">
+                    {roomTitles[roomId] || "새 채팅방"}
+                  </h3>
+                  <button
+                    className="kebab-menu"
+                    onClick={(e) => {
+                      e.stopPropagation(); // 클릭 이벤트 전파 방지
+                      handleKebabClick(roomId);
+                    }}
+                  >
+                    &#8226;&#8226;&#8226; {/* 케밥 아이콘 */}
+                  </button>
+                  {activeRoomId === roomId && (
+                    <div className="dropdown-menu" ref={dropdownRef}>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation(); // 클릭 이벤트 전파 방지
+                          handleEditClick(roomId);
+                        }}
+                      >
+                        수정
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation(); // 클릭 이벤트 전파 방지
+                          onDeleteChat(roomId);
+                        }}
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
     </ul>
   );
 };
