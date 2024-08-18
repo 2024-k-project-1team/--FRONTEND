@@ -38,7 +38,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   const handleRenameSubmit = (event: React.FormEvent, roomId: number) => {
     event.preventDefault();
     if (newTitle.trim()) {
-      onRenameChat(roomId, newTitle.trim());
+      onRenameChat(roomId, newTitle.trim().replace(/^"|"$/g, ""));
       setEditingRoomId(null);
     }
   };
@@ -112,26 +112,26 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
                   >
                     &#8226;&#8226;&#8226; {/* 케밥 아이콘 */}
                   </button>
-                  {activeRoomId === roomId && (
-                    <div className="dropdown-menu" ref={dropdownRef}>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation(); // 클릭 이벤트 전파 방지
-                          handleEditClick(roomId);
-                        }}
-                      >
-                        수정
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation(); // 클릭 이벤트 전파 방지
-                          onDeleteChat(roomId);
-                        }}
-                      >
-                        삭제
-                      </button>
-                    </div>
-                  )}
+                </div>
+              )}
+              {activeRoomId === roomId && (
+                <div className="dropdown-menu" ref={dropdownRef}>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // 클릭 이벤트 전파 방지
+                      handleEditClick(roomId);
+                    }}
+                  >
+                    수정
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // 클릭 이벤트 전파 방지
+                      onDeleteChat(roomId);
+                    }}
+                  >
+                    삭제
+                  </button>
                 </div>
               )}
             </div>

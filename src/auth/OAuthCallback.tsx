@@ -42,9 +42,8 @@ const OAuthCallback = ({ onLogin }: { onLogin: (user: User) => void }) => {
             onLogin({ name: userName });
 
             navigate("/chatting");
-          }
-          else {
-            setLoading(false); // 로딩 상태를 false로 
+          } else {
+            setLoading(false); // 로딩 상태를 false로
           }
         })
         .catch((error: unknown) => {
@@ -56,17 +55,17 @@ const OAuthCallback = ({ onLogin }: { onLogin: (user: User) => void }) => {
           } else {
             console.error("Unexpected error:", error);
           }
-          setLoading(false); // 로딩 상태를 false로 
+          setLoading(false); // 로딩 상태를 false로
         });
     } else {
-      setLoading(false); 
+      setLoading(false);
     }
   }, [code, state, navigate, onLogin]);
 
   return (
     <div>
       {loading ? (
-        <Spinner /> // 로딩 상태일 때 Spinner 
+        <Spinner /> // 로딩 상태일 때 Spinner
       ) : (
         <div>로그인 중입니다. 잠시 기다려 주세요.</div>
       )}
