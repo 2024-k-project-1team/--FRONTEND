@@ -31,7 +31,6 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const handleNewChatWithRefresh = async () => {
     await onNewChat(); // 새 채팅방 생성
-    window.location.reload(); // 페이지 새로고침
   };
 
   return (

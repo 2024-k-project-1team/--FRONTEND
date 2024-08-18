@@ -162,9 +162,9 @@ const Chatting: React.FC = () => {
         return;
       }
 
-      // 새 채팅방을 맨 앞에 추가
-      setRoomIds((prevRoomIds) => [newRoomId, ...prevRoomIds]);
-      setChats((prevChats) => [[], ...prevChats]); // 새로운 채팅방에 빈 채팅 배열 추가
+      // 새 채팅방을 맨 끝에 추가
+      setRoomIds((prevRoomIds) => [...prevRoomIds, newRoomId]);
+      setChats((prevChats) => [...prevChats, []]); // 새로운 채팅방에 빈 채팅 배열 추가
       setRoomTitles((prevTitles) => ({
         ...prevTitles,
         [newRoomId]: "새 채팅방", // 기본 이름 설정

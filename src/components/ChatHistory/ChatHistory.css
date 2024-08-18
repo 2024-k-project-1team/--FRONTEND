@@ -19,7 +19,7 @@
   padding: 10px;
   cursor: pointer;
   border-bottom: 1px solid #ddd;
-  position: relative; /* 추가 */
+  position: relative;
 }
 
 .chat-history li.active {
@@ -28,34 +28,37 @@
 
 .chat-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  width: 100%;
+  position: relative;
 }
 
-.edit-text {
-  width: 70%;
+.chat-title-container {
+  flex-grow: 1; /* 이름 영역이 가능한 한 많은 공간을 차지하도록 설정 */
+  display: flex;
+  align-items: center;
 }
 
 .kebab-menu {
   background: none;
   border: none;
   cursor: pointer;
-  position: relative; /* 추가 */
+  margin-left: auto; /* 메뉴 버튼을 오른쪽 끝으로 밀기 */
+  position: relative;
+  z-index: 2; /* 버튼이 드롭다운 메뉴보다 위에 위치하도록 설정 */
 }
 
 .dropdown-menu {
   position: absolute;
-  top: 50%; /* 케밥 버튼과 같은 위치에 */
-  right: 40px; /* 케밥 메뉴 버튼 오른쪽에 배치 */
-  transform: translateY(
-    -50%
-  ); /* 드롭다운 메뉴의 수직 중앙 정렬... 인데 이거 수정 필요해요*/
+  top: 50%; /* 버튼의 중간 높이에 맞춰 배치 */
+  right: 0; /* 오른쪽에 붙이기 */
+  transform: translateY(-50%); /* 수직 중앙 정렬 */
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px;
-  z-index: 1000;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15); /* 약간의 그림자 추가...할가요..?  */
+  z-index: 9999; /* 드롭다운 메뉴가 다른 모든 요소 위에 표시되도록 설정 */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .dropdown-menu button {
