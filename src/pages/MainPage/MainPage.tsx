@@ -13,24 +13,24 @@ const MainPage = () => {
         <div className="ex">
           <div className="exQuestion1">
             <div className="exText1">
-              오늘 대한민국 경기도 용인시 기흥구의 날씨는 어때?
+              소프트웨어 개발자가 되고 싶은데 어떤 수업을 들어야 할까?
             </div>
-            <div className="category1">☀️ 날씨보기</div>
+            <div className="category1">📆 로드맵 짜기</div>
           </div>
 
           <div className="exQuestion2">
-            <div className="exText2">2024년 학사 일정을 알려줘</div>
-            <div className="category2">🎓 학사 일정</div>
+            <div className="exText2">학부 동아리는 뭐가 있어?</div>
+            <div className="category2">👨‍💻 동아리 정보</div>
           </div>
 
           <div className="exQuestion1">
-            <div className="exText1">최근 공지사항 알려줘</div>
-            <div className="category1">🎬 전공 질문</div>
+            <div className="exText1">우리 학교 교수님들은 누가 있어?</div>
+            <div className="category1">🎓 학교 정보</div>
           </div>
 
           <div className="exQuestion2">
-            <div className="exText2">나 심심해 놀아줘라!!</div>
-            <div className="category2">🏘 일상대화</div>
+            <div className="exText2">학부 전화번호가 뭐야?</div>
+            <div className="category2">🏫 학부 정보</div>
           </div>
         </div>
       </div>
