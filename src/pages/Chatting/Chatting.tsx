@@ -17,6 +17,7 @@ import "./Chatting.css";
 interface ChatMessage {
   message: string;
   isUser: boolean;
+  isLoading?: boolean;
 }
 
 const Chatting: React.FC = () => {
@@ -37,11 +38,9 @@ const Chatting: React.FC = () => {
       }
 
       try {
-        // 채팅방 목록 불러오기
         const chatRooms = await getAllChatRooms(accessToken);
 
         if (chatRooms && chatRooms.length > 0) {
-          // 채팅방 목록을 최근 생성된 순서로 정렬하여 RoomIds를 설정
           chatRooms.sort((a: any, b: any) => a.id - b.id);
           setRoomIds(chatRooms.map((room: any) => room.id));
           setRoomTitles(
@@ -51,8 +50,8 @@ const Chatting: React.FC = () => {
             }, {})
           );
 
-          setRoomId(chatRooms[0].id); // 첫 번째 방을 기본 선택
-          await loadChatRoomContents(chatRooms[0].id); // 첫 번째 방의 채팅 기록 불러오기
+          setRoomId(chatRooms[0].id);
+          await loadChatRoomContents(chatRooms[0].id);
         } else {
           console.log("저장된 방이 없습니다. 새 채팅방을 생성하세요.");
         }
@@ -64,7 +63,6 @@ const Chatting: React.FC = () => {
     initializeChat();
   }, []);
 
-  // 특정 채팅방의 기록을 불러오는 함수
   const loadChatRoomContents = async (selectedRoomId: number) => {
     try {
       const accessToken = sessionStorage.getItem("accessToken");
@@ -73,16 +71,12 @@ const Chatting: React.FC = () => {
         return;
       }
 
-      const chatContents = await getChatRoomContents(
-        accessToken,
-        selectedRoomId,
-        0
-      );
+      const chatContents = await getChatRoomContents(accessToken, selectedRoomId, 0);
 
       const formattedChats: ChatMessage[] = chatContents.content.flatMap(
         (chat: any) => [
           { message: chat.message, isUser: true },
-          { message: chat.aiResponse, isUser: false },
+          { message: chat.aiResponse, isUser: false, isLoading: false },
         ]
       );
 
@@ -98,12 +92,11 @@ const Chatting: React.FC = () => {
     }
   };
 
-  // 채팅방을 선택하는 함수
   const handleSelectChat = async (selectedRoomId: number) => {
-    if (roomId === selectedRoomId) return; // 현재 방과 동일하다면 아무 것도 하지 않음
+    if (roomId === selectedRoomId) return;
 
     setRoomId(selectedRoomId);
-    await loadChatRoomContents(selectedRoomId); // 선택한 방의 채팅 기록 불러오기
+    await loadChatRoomContents(selectedRoomId);
 
     const accessToken = sessionStorage.getItem("accessToken");
     if (accessToken) {
@@ -118,8 +111,14 @@ const Chatting: React.FC = () => {
             const botResponse: ChatMessage = {
               message: formattedAnswer,
               isUser: false,
+              isLoading: false,
             };
-            setCurrentChat((prevChat) => [...prevChat, botResponse]);
+            setCurrentChat((prevChat) => {
+              // 로더를 제거하고, 새로운 메시지를 추가
+              const updatedChat = [...prevChat];
+              updatedChat.pop();  // 마지막 로더 메시지를 제거
+              return [...updatedChat, botResponse];
+            });
           } catch (error) {
             console.error("메시지 파싱 실패:", error);
           }
@@ -131,7 +130,6 @@ const Chatting: React.FC = () => {
     }
   };
 
-  // 새 채팅방을 생성하는 함수
   const handleNewChat = async () => {
     const accessToken = sessionStorage.getItem("accessToken");
     if (!accessToken) {
@@ -140,7 +138,6 @@ const Chatting: React.FC = () => {
     }
 
     try {
-      // 현재 채팅방의 채팅 기록을 저장
       if (currentChat.length > 0 && roomId !== null) {
         setChats((prevChats) => {
           const newChats = [...prevChats];
@@ -150,10 +147,9 @@ const Chatting: React.FC = () => {
           }
           return newChats;
         });
-        setCurrentChat([]); // 현재 채팅 내용 초기화
+        setCurrentChat([]);
       }
 
-      // 새 채팅방 생성
       const newRoomId = await createChatRoom(accessToken);
       console.log("새로 생성된 방 ID:", newRoomId);
 
@@ -162,22 +158,19 @@ const Chatting: React.FC = () => {
         return;
       }
 
-      // 새 채팅방을 맨 끝에 추가
       setRoomIds((prevRoomIds) => [...prevRoomIds, newRoomId]);
-      setChats((prevChats) => [...prevChats, []]); // 새로운 채팅방에 빈 채팅 배열 추가
+      setChats((prevChats) => [...prevChats, []]);
       setRoomTitles((prevTitles) => ({
         ...prevTitles,
-        [newRoomId]: "새 채팅방", // 기본 이름 설정
+        [newRoomId]: "새 채팅방",
       }));
 
-      // 새로 생성된 채팅방으로 이동
       await handleSelectChat(newRoomId);
     } catch (error) {
       console.error("채팅방 생성 실패:", error);
     }
   };
 
-  // 채팅방 삭제 함수
   const handleDeleteChat = async (roomIdToDelete: number | null) => {
     const accessToken = sessionStorage.getItem("accessToken");
     if (!accessToken) {
@@ -208,9 +201,9 @@ const Chatting: React.FC = () => {
         );
 
         if (roomIdToDelete === roomId) {
-          setRoomId(roomIds.length > 0 ? roomIds[0] : null); // 남아있는 방 중 하나를 선택
+          setRoomId(roomIds.length > 0 ? roomIds[0] : null);
           if (roomIds.length > 0) {
-            await loadChatRoomContents(roomIds[0]); // 남아있는 방의 채팅 기록을 로드
+            await loadChatRoomContents(roomIds[0]);
           }
         }
       } catch (error) {
@@ -219,7 +212,6 @@ const Chatting: React.FC = () => {
     }
   };
 
-  // 채팅방 이름 변경 함수
   const handleRenameChat = async (roomIdToRename: number, newTitle: string) => {
     const accessToken = sessionStorage.getItem("accessToken");
     if (!accessToken) {
@@ -238,17 +230,15 @@ const Chatting: React.FC = () => {
     }
   };
 
-  // 메시지 전송 함수
   const handleSendMessage = (message: string) => {
     if (!roomId) {
-      console.error(
-        "Room ID가 정의되지 않았습니다. 메시지를 보낼 수 없습니다."
-      );
+      console.error("Room ID가 정의되지 않았습니다. 메시지를 보낼 수 없습니다.");
       return;
     }
     const userMessage: ChatMessage = { message, isUser: true };
+    const botLoadingMessage: ChatMessage = { message: '', isUser: false, isLoading: true };
 
-    setCurrentChat([...currentChat, userMessage]);
+    setCurrentChat([...currentChat, userMessage, botLoadingMessage]);
 
     if (WebSocketService.isConnected()) {
       WebSocketService.sendMessage(`/pub/knbot/${roomId}`, {
@@ -257,6 +247,11 @@ const Chatting: React.FC = () => {
       });
     } else {
       console.error("Client is not connected");
+      setCurrentChat((prevChat) => {
+        const updatedChat = [...prevChat];
+        updatedChat.pop();  // 연결 실패 시 로더 메시지를 제거
+        return updatedChat;
+      });
     }
   };
 

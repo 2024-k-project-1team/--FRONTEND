@@ -1,3 +1,8 @@
+@font-face{
+  font-family: "PRETENDARD-REGULAR";
+  src: url("../../assets/fonts/PRETENDARD-REGULAR.OTF")format("opentype");
+}
+
 .sidebar {
   width: 20%;
   padding: 20px;
@@ -17,6 +22,7 @@
 }
 .news-chat-text{
   margin-left: 15px;
+  font-family: "PRETENDARD-REGULAR";
 }
 
 .new-chat-button {

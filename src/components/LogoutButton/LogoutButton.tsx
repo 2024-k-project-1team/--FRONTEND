@@ -5,7 +5,7 @@ const LogoutButton: React.FC = () => {
   const { handleLogout } = useLogout();
   return (
     <button className="logout-button" onClick={handleLogout}>
-      로그아웃
+      <span className="btn-text">로그아웃</span>
     </button>
   );
 };
