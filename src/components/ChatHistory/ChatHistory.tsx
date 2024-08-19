@@ -39,7 +39,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   const handleRenameSubmit = (event: React.FormEvent, roomId: number) => {
     event.preventDefault();
     if (newTitle.trim()) {
-      onRenameChat(roomId, newTitle.trim().replace(/^"|"$/g, ""));
+      onRenameChat(roomId, newTitle.trim().replace(/^"|"$/g, "")); // 따옴표 제거하여 저장
       setEditingRoomId(null);
     }
   };
@@ -68,6 +68,9 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // 함수: 따옴표를 제거한 타이틀 반환
+  const removeQuotes = (title: string) => title.replace(/^"|"$/g, "");
 
   return (
     <ul className="chat-history">
@@ -102,7 +105,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
               ) : (
                 <div className="chat-title-container">
                   <h3 className="chat-title">
-                    {roomTitles[roomId] || "새 채팅방"}
+                    {removeQuotes(roomTitles[roomId] || "새 채팅방")}
                   </h3>
                   <button
                     className="kebab-menu"
