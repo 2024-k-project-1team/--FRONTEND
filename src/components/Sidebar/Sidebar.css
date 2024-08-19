@@ -1,6 +1,6 @@
-@font-face{
+@font-face {
   font-family: "PRETENDARD-REGULAR";
-  src: url("../../assets/fonts/PRETENDARD-REGULAR.OTF")format("opentype");
+  src: url("../../assets/fonts/PRETENDARD-REGULAR.OTF") format("opentype");
 }
 
 .sidebar {
@@ -8,21 +8,19 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   border-right: 1px solid grey;
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
 }
 .newchat {
   display: flex;
- justify-content:space-between;
- align-items: center;
- border-bottom: 1px solid grey;
- padding: 10px;
-
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid grey;
+  padding: 10px;
 }
-.news-chat-text{
+.news-chat-text {
   margin-left: 15px;
-  font-family: "PRETENDARD-REGULAR";
+  font-family: "PRETENDARD-MEDIUM";
 }
 
 .new-chat-button {
@@ -30,22 +28,21 @@
   padding: 5px;
   width: 40px;
   cursor: pointer;
- font-size: 25px;
+  font-size: 25px;
   background-color: #fff;
   margin-right: 15px;
 }
 
-
 .logout-button {
-background-color: #82C2FD;
-width: 90px;
-padding: 10px;
-border-radius: 10px;
-border: none;
-position: relative;
-cursor: pointer;
-left:70%;
-
+  background-color: #82c2fd;
+  width: 90px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  position: relative;
+  cursor: pointer;
+  left: 70%;
+  font-family: "PRETENDARD-MEDIUM" !important;
 }
 
 .chat-history {
@@ -65,5 +62,3 @@ left:70%;
   font-weight: bold;
   margin-bottom: 5px;
 }
-
-

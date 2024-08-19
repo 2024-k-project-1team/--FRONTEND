@@ -1,6 +1,6 @@
-@font-face{
+@font-face {
   font-family: "PRETENDARD-MEDIUM";
-  src: url("../../assets/fonts/PRETENDARD-MEDIUM.OTF")format("opentype");
+  src: url("../../assets/fonts/PRETENDARD-MEDIUM.OTF") format("opentype");
 }
 
 .chat-history {
@@ -39,7 +39,7 @@
 }
 
 .chat-title-container {
-  flex-grow: 1; /* 이름 영역이 가능한 한 많은 공간을 차지하도록 설정 */
+  flex-grow: 1;
   display: flex;
   align-items: center;
 }
@@ -48,21 +48,21 @@
   background: none;
   border: none;
   cursor: pointer;
-  margin-left: auto; /* 메뉴 버튼을 오른쪽 끝으로 밀기 */
+  margin-left: auto;
   position: relative;
-  z-index: 2; /* 버튼이 드롭다운 메뉴보다 위에 위치하도록 설정 */
+  z-index: 2;
 }
 
 .dropdown-menu {
   position: absolute;
-  top: 50%; /* 버튼의 중간 높이에 맞춰 배치 */
-  right: 0; /* 오른쪽에 붙이기 */
-  transform: translateY(-50%); /* 수직 중앙 정렬 */
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px;
-  z-index: 9999; /* 드롭다운 메뉴가 다른 모든 요소 위에 표시되도록 설정 */
+  z-index: 9999;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -78,4 +78,39 @@
 
 .dropdown-menu button:hover {
   background-color: #f0f0f0;
+}
+
+/* 수정된 버튼 스타일 */
+.edit {
+  display: flex;
+  align-items: center;
+}
+
+.edit button {
+  padding: 5px 10px;
+  margin-left: 4px;
+  margin-right: -3px;
+
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  font-family: "PRETENDARD-MEDIUM";
+  font-size: 14px;
+  width: auto; /* 버튼의 너비가 내용에 맞도록 설정 */
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+.edit button:hover {
+  background-color: #f0f0f0;
+}
+
+.edit-text {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-family: "PRETENDARD-MEDIUM";
+  font-size: 14px;
+  margin-right: 5px;
+  flex-grow: 1;
 }

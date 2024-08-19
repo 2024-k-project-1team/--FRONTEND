@@ -33,6 +33,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   const handleEditClick = (roomId: number) => {
     setEditingRoomId(roomId);
     setNewTitle(roomTitles[roomId] || "");
+    setActiveRoomId(null); // 수정 버튼을 눌렀을 때 드롭다운 메뉴가 닫히도록 설정
   };
 
   const handleRenameSubmit = (event: React.FormEvent, roomId: number) => {

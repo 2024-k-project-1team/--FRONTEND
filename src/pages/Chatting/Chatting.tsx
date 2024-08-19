@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import UserInfo from "../../components/UserInfo/UserInfo";
 import Chatbox from "../../components/Chatbox/Chatbox";
@@ -28,6 +28,8 @@ const Chatting: React.FC = () => {
   const [roomTitles, setRoomTitles] = useState<{ [key: number]: string }>({});
   const name = sessionStorage.getItem("name") || "User";
 
+  const hasInitialized = useRef(false); // 첫 렌더링 체크용 ref
+
   useEffect(() => {
     const initializeChat = async () => {
       const accessToken = sessionStorage.getItem("accessToken");
@@ -52,8 +54,12 @@ const Chatting: React.FC = () => {
 
           setRoomId(chatRooms[0].id);
           await loadChatRoomContents(chatRooms[0].id);
-        } else {
-          console.log("저장된 방이 없습니다. 새 채팅방을 생성하세요.");
+        }
+
+        // 채팅방이 이미 있든 없든 첫 렌더링 시 새 채팅방 생성
+        if (!hasInitialized.current) {
+          hasInitialized.current = true;
+          handleNewChat();
         }
       } catch (error) {
         console.error("채팅방 목록 불러오기 실패:", error);
@@ -71,7 +77,11 @@ const Chatting: React.FC = () => {
         return;
       }
 
-      const chatContents = await getChatRoomContents(accessToken, selectedRoomId, 0);
+      const chatContents = await getChatRoomContents(
+        accessToken,
+        selectedRoomId,
+        0
+      );
 
       const formattedChats: ChatMessage[] = chatContents.content.flatMap(
         (chat: any) => [
@@ -114,9 +124,8 @@ const Chatting: React.FC = () => {
               isLoading: false,
             };
             setCurrentChat((prevChat) => {
-              // 로더를 제거하고, 새로운 메시지를 추가
               const updatedChat = [...prevChat];
-              updatedChat.pop();  // 마지막 로더 메시지를 제거
+              updatedChat.pop(); // 마지막 로더 메시지를 제거
               return [...updatedChat, botResponse];
             });
           } catch (error) {
@@ -232,11 +241,17 @@ const Chatting: React.FC = () => {
 
   const handleSendMessage = (message: string) => {
     if (!roomId) {
-      console.error("Room ID가 정의되지 않았습니다. 메시지를 보낼 수 없습니다.");
+      console.error(
+        "Room ID가 정의되지 않았습니다. 메시지를 보낼 수 없습니다."
+      );
       return;
     }
     const userMessage: ChatMessage = { message, isUser: true };
-    const botLoadingMessage: ChatMessage = { message: '', isUser: false, isLoading: true };
+    const botLoadingMessage: ChatMessage = {
+      message: "",
+      isUser: false,
+      isLoading: true,
+    };
 
     setCurrentChat([...currentChat, userMessage, botLoadingMessage]);
 
@@ -249,7 +264,7 @@ const Chatting: React.FC = () => {
       console.error("Client is not connected");
       setCurrentChat((prevChat) => {
         const updatedChat = [...prevChat];
-        updatedChat.pop();  // 연결 실패 시 로더 메시지를 제거
+        updatedChat.pop(); // 연결 실패 시 로더 메시지를 제거
         return updatedChat;
       });
     }
