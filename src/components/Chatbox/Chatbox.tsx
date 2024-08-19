@@ -5,11 +5,12 @@ import ChatItem from "../ChatItem/ChatItem";
 interface ChatMessage {
   message: string;
   isUser: boolean;
+  isLoading?: boolean;
 }
 
 interface ChatboxProps {
   messages: ChatMessage[];
-  showWelcomeMessage?: boolean; //채팅시작메시지
+  showWelcomeMessage?: boolean;
 }
 
 const Chatbox: React.FC<ChatboxProps> = ({ messages, showWelcomeMessage = false }) => {
@@ -22,7 +23,12 @@ const Chatbox: React.FC<ChatboxProps> = ({ messages, showWelcomeMessage = false 
         </div>
       )}
       {messages.map((msg, index) => (
-        <ChatItem key={index} message={msg.message} isUser={msg.isUser} />
+        <ChatItem 
+          key={index} 
+          message={msg.message} 
+          isUser={msg.isUser} 
+          isLoading={msg.isLoading}
+        />
       ))}
     </div>
   );

@@ -1,10 +1,11 @@
 .chatbox {
     flex: 1;
-    padding: 50px;
+    padding: 40px;
     display: flex;
     flex-direction: column; 
     overflow-y: auto;
-    margin-top: 50px;
+    margin-top: 60px;
+    font-family: pretandard;
 }
 .chat-area{
     display: flex;

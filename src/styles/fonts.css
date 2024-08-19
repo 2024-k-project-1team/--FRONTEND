@@ -1,0 +1,35 @@
+@font-face {
+    font-family: "JalnanGothic";
+    src: url("../assets/fonts/JalnanGothic.otf") format("opentype");
+  }
+  
+  @font-face {
+    font-family: "KOTRA_BOLD";
+    src: url("../assets/fonts/KOTRA_BOLD.otf") format("opentype");
+  }
+  
+  @font-face {
+    font-family: "WantedSans-SemiBold";
+    src: url("../assets/fonts/WantedSans-SemiBold.otf") format("opentype");
+  }
+  
+  @font-face {
+    font-family: "WantedSans-Medium";
+    src: url("../assets/fonts/WantedSans-Medium.otf") format("opentype");
+  }
+  
+  @font-face {
+    font-family: "WantedSans-Regular";
+    src: url("../assets/fonts/WantedSans-Regular.otf") format("opentype");
+  }
+
+
+  @font-face{
+    font-family: "PRETENDARD-MEDIUM";
+    src: url("../assets/fonts/PRETENDARD-MEDIUM.OTF")format("opentype");
+  }
+  
+  @font-face{
+    font-family: "PRETENDARD-REGULAR";
+    src: url("../../assets/fonts/PRETENDARD-REGULAR.OTF")format("opentype");
+  }

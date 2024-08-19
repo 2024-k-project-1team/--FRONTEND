@@ -8,18 +8,20 @@
   }
   
   .chat-item.user {
-    background-color: #f1f8ff; /* 사용자가 입력한 채팅 */
+    background-color: #f1f8ff !important; /* 사용자가 입력한 채팅 */
     align-self: flex-end; 
     border-top-right-radius: 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    font-family: "pretandard";
 
   }
   
   .chat-item.response {
     background-color: #9bcefd; /* 챗봇이 응답한 채팅 */
     align-self: flex-start;
-    border-top-right-radius: 0;
+    border-top-left-radius: 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    font-family: "pretandard";
   }
   
   .chat-item::before {
@@ -37,8 +39,31 @@
   }
   
   .chat-item.response::before {
-    top: 0;
-    right: -10px;
-    border-color: transparent transparent transparent #9bcefd;
+   /* top: 0;*/
+    border-color: transparent transparent transparent 
   }
   
+
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .dots-loader {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #9bcefd;
+    animation: loader 0.6s infinite alternate;
+  }
+  
+  @keyframes loader {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.5);
+    }
+  }

@@ -1,7 +1,15 @@
+@font-face{
+    font-family: "PRETENDARD-REGULAR";
+    src: url("../../assets/fonts/PRETENDARD-REGULAR.OTF")format("opentype");
+  }
+
 .logout-button {
     color: #82C2FD;
      width: 100px;
      position: absolute;
      cursor: pointer;
-    
  }
+ .btn-text {
+    font-family: "PRETENDARD-REGULAR" !important;
+}
+
