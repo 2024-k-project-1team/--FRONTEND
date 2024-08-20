@@ -11,7 +11,7 @@ class WebSocketService {
     onError?: (error: any) => void
   ) {
     this.client = new Client({
-      brokerURL: "ws://knbot.xyz:8080/chat", // WebSocket 서버 URL
+      brokerURL: "wss://knbot.xyz/chat", // WebSocket 서버 URL
       connectHeaders: {
         Authorization: `${accessToken}`,
       },
